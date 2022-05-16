@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Livepeer Player</title>
+
+    <link href="lib/videojs@7.18.1.css" rel="stylesheet" />
+    <link href="lib/videojs-themes@1.0.1-city.css" rel="stylesheet">
+    <link href="lib/videojs-themes@1.0.1-fantasy.css" rel="stylesheet">
+    <link href="lib/videojs-themes@1.0.1-forest.css" rel="stylesheet">
+    <link href="lib/videojs-themes@1.0.1-sea.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <video
+      id="video"
+      class="video-js"
+      controls
+      preload="auto"
+    >
+      <p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+        <a href="https://videojs.com/html5-video-support/" target="_blank">
+          supports HTML5 video
+        </a>
+      </p>
+    </video>
+    <script src="lib/videojs@7.18.1.min.js"></script>
+    <script src="lib/videojs-contrib-quality-levels@2.1.0.min.js"></script>
+    <script src="lib/videojs-hls-quality-selector@1.1.4.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
