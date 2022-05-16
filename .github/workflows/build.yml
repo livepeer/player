@@ -1,0 +1,16 @@
+name: Build
+jobs:
+  build_and_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: build
+        run: yarn
