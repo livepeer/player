@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepare": "run-s clean:build build",
+    "fleek": "apt update && apt install -y rsync && yarn",
     "start": "http-server ./dist",
     "clean": "run-p clean:build clean:deps",
     "clean:build": "rm -rf ./dist",
