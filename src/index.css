@@ -27,14 +27,6 @@ body {
   /* box-sizing: border-box; */
 }
 
-.vjs-big-play-button {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  transition: opacity 0.2s linear, color 0.2s linear;
-}
-
 .video-js .vjs-time-control {
   display: block;
 }
