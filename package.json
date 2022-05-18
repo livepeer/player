@@ -14,7 +14,7 @@
     "build": "run-p build:copy build:bundle",
     "build:copy": "mkdir -p ./dist && rsync -r --exclude '*.ts' src/* ./dist",
     "build:bundle": "esbuild --define:process.env.NODE_ENV=\"production\" --minify --bundle --log-level=error src/index.ts --outfile=./dist/index.js",
-    "dev": "yarn clean; run-p dev:copy dev:bundle dev:server",
+    "dev": "yarn clean:build; run-p dev:copy dev:bundle dev:server",
     "dev:copy": "watch-exec -w src -c 'run-s build:copy'",
     "dev:bundle": "esbuild --define:process.env.NODE_ENV=\"development\" --watch --sourcemap --bundle --log-level=error src/index.ts --outfile=./dist/index.js",
     "dev:server": "watch-http-server ./dist"
