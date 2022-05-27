@@ -24,6 +24,40 @@ const addClass = (elm: HTMLElement, class_: string) => {
   video.className += ` ${class_}`
 }
 
+type PlaybackInfo = {
+  type: string
+  meta: {
+    live?: 0 | 1
+    source: {
+      hrn: string
+      type: string
+      url: string
+    }[]
+  }
+}
+
+const hlsPlaybackType = 'html5/application/vnd.apple.mpegurl'
+
+const fetchPlaybackUrl = async (pid: string, tld: string) => {
+  try {
+    const res = await fetch(`https://livepeer.${tld}/api/playback/${pid}`)
+    if (res.status !== 200) {
+      throw new Error(`${res.status} ${res.statusText}`)
+    }
+    const playback: PlaybackInfo = await res.json()
+    const hlsInfo = playback?.meta?.source?.find(
+      (s) => s.type === hlsPlaybackType
+    )
+    if (!hlsInfo) {
+      throw new Error('No HLS source found')
+    }
+    return hlsInfo.url
+  } catch (err) {
+    console.error('WARN: Failed to fetch playback URL', err)
+    return `https://livepeercdn.${tld}/hls/${pid}/index.m3u8`
+  }
+}
+
 const query: Record<string, string> = {}
 new URLSearchParams(location.search).forEach(
   (value, name) => (query[name] = value)
@@ -31,9 +65,10 @@ new URLSearchParams(location.search).forEach(
 const {
   autoplay = '1',
   theme = 'forest',
+  p, // short for playbackId
+  playbackId = p,
   live,
   recording,
-  vod,
   path: pathQs,
   url,
   monster,
@@ -44,17 +79,22 @@ const isTrue = (b: string) =>
 const withIndex = (p: string) =>
   p.endsWith('/index.m3u8') ? p : pathJoin(p, 'index.m3u8')
 
-const path = pathQs
-  ? withIndex(pathQs)
-  : live
-  ? `/hls/${live}/index.m3u8`
-  : recording
-  ? `/recordings/${recording}/index.m3u8`
-  : vod
-  ? `/asset/${vod}/video` // TODO: HLS playback here once we support VOD playbackId
-  : null
 const tld = isTrue(monster) ? 'monster' : 'com'
-const src = url || pathJoin(`https://livepeercdn.${tld}`, path)
+
+let srcProm: Promise<string>
+if (playbackId) {
+  srcProm = fetchPlaybackUrl(playbackId, tld)
+} else {
+  const path = pathQs
+    ? withIndex(pathQs)
+    : live
+    ? `/hls/${live}/index.m3u8`
+    : recording
+    ? `/recordings/${recording}/index.m3u8`
+    : null
+  const src = url || pathJoin(`https://livepeercdn.${tld}`, path)
+  srcProm = Promise.resolve(src)
+}
 
 const video = document.getElementById('video')
 if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
@@ -69,7 +109,7 @@ const player = videojs(
 player.volume(1)
 player.controls(true)
 
-if (src) {
+srcProm.then((src) => {
   player.src({
     src,
     type: 'application/x-mpegURL',
@@ -78,4 +118,4 @@ if (src) {
   player.hlsQualitySelector({
     displayCurrentQuality: true,
   })
-}
+})
