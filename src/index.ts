@@ -69,7 +69,6 @@ const {
   playbackId = p,
   live,
   recording,
-  vod,
   path: pathQs,
   url,
   monster,
@@ -92,8 +91,6 @@ if (playbackId) {
     ? `/hls/${live}/index.m3u8`
     : recording
     ? `/recordings/${recording}/index.m3u8`
-    : vod
-    ? `/asset/${vod}/video` // TODO: HLS playback here once we support VOD playbackId
     : null
   const src = url || pathJoin(`https://livepeercdn.${tld}`, path)
   srcProm = Promise.resolve(src)
