@@ -64,6 +64,7 @@ new URLSearchParams(location.search).forEach(
 )
 const {
   autoplay = '1',
+  loop,
   theme = 'forest',
   p, // short for playbackId
   playbackId = p,
@@ -101,10 +102,11 @@ if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
 }
 // @ts-ignore
-const player = videojs(
-  video,
-  !isTrue(autoplay) ? {} : { autoplay: true, muted: true }
-)
+const player = videojs(video, {
+  autoplay: isTrue(autoplay),
+  muted: isTrue(autoplay),
+  loop: isTrue(loop),
+})
 
 player.volume(1)
 player.controls(true)
