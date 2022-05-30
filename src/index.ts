@@ -58,33 +58,30 @@ const fetchPlaybackUrl = async (pid: string, tld: string) => {
   }
 }
 
-const query: Record<string, string> = {}
-new URLSearchParams(location.search).forEach(
-  (value, name) => (query[name] = value)
-)
-const {
-  autoplay = '1',
-  theme = 'forest',
-  p, // short for playbackId
-  playbackId = p,
-  live,
-  recording,
-  path: pathQs,
-  url,
-  monster,
-} = query
-
 const isTrue = (b: string) =>
   b === '' || b === '1' || b?.toLowerCase() === 'true'
 const withIndex = (p: string) =>
   p.endsWith('/index.m3u8') ? p : pathJoin(p, 'index.m3u8')
 
-const tld = isTrue(monster) ? 'monster' : 'com'
+const getVideoSrc = async (query: Record<string, string>) => {
+  const {
+    p, // short for playbackId
+    playbackId = p,
+    live,
+    recording,
+    path: pathQs,
+    url,
+    monster,
+  } = query
+  if (url) {
+    return url
+  }
 
-let srcProm: Promise<string>
-if (playbackId) {
-  srcProm = fetchPlaybackUrl(playbackId, tld)
-} else {
+  const tld = isTrue(monster) ? 'monster' : 'com'
+  if (playbackId) {
+    return fetchPlaybackUrl(playbackId, tld)
+  }
+
   const path = pathQs
     ? withIndex(pathQs)
     : live
@@ -92,24 +89,30 @@ if (playbackId) {
     : recording
     ? `/recordings/${recording}/index.m3u8`
     : null
-  const src = url || pathJoin(`https://livepeercdn.${tld}`, path)
-  srcProm = Promise.resolve(src)
+  return pathJoin(`https://livepeercdn.${tld}`, path)
 }
 
+const query: Record<string, string> = {}
+new URLSearchParams(location.search).forEach(
+  (value, name) => (query[name] = value)
+)
+
+const { autoplay = '1', muted = autoplay, loop, theme = 'fantasy' } = query
 const video = document.getElementById('video')
 if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
 }
 // @ts-ignore
-const player = videojs(
-  video,
-  !isTrue(autoplay) ? {} : { autoplay: true, muted: true }
-)
+const player = videojs(video, {
+  autoplay: isTrue(autoplay),
+  muted: isTrue(muted),
+  loop: isTrue(loop),
+})
 
 player.volume(1)
 player.controls(true)
 
-srcProm.then((src) => {
+getVideoSrc(query).then((src) => {
   player.src({
     src,
     type: 'application/x-mpegURL',
