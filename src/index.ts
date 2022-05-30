@@ -38,24 +38,19 @@ type PlaybackInfo = {
 
 const hlsPlaybackType = 'html5/application/vnd.apple.mpegurl'
 
-const fetchPlaybackUrl = async (pid: string, tld: string) => {
-  try {
-    const res = await fetch(`https://livepeer.${tld}/api/playback/${pid}`)
-    if (res.status !== 200) {
-      throw new Error(`${res.status} ${res.statusText}`)
-    }
-    const playback: PlaybackInfo = await res.json()
-    const hlsInfo = playback?.meta?.source?.find(
-      (s) => s.type === hlsPlaybackType
-    )
-    if (!hlsInfo) {
-      throw new Error('No HLS source found')
-    }
-    return hlsInfo.url
-  } catch (err) {
-    console.error('WARN: Failed to fetch playback URL', err)
-    return `https://livepeercdn.${tld}/hls/${pid}/index.m3u8`
+const fetchPlaybackUrl = async (playbackId: string, tld: string) => {
+  const res = await fetch(`https://livepeer.${tld}/api/playback/${playbackId}`)
+  if (res.status !== 200) {
+    throw new Error(`${res.status} ${res.statusText}`)
   }
+  const playback: PlaybackInfo = await res.json()
+  const hlsInfo = playback?.meta?.source?.find(
+    (s) => s.type === hlsPlaybackType
+  )
+  if (!hlsInfo) {
+    throw new Error('No HLS source found')
+  }
+  return hlsInfo.url
 }
 
 const isTrue = (b: string) =>
@@ -64,22 +59,19 @@ const withIndex = (p: string) =>
   p.endsWith('/index.m3u8') ? p : pathJoin(p, 'index.m3u8')
 
 const getVideoSrc = async (query: Record<string, string>) => {
-  const {
-    p, // short for playbackId
-    playbackId = p,
-    live,
-    recording,
-    path: pathQs,
-    url,
-    monster,
-  } = query
+  let { v: playbackId, live, recording, path: pathQs, url, monster } = query
   if (url) {
     return url
   }
 
   const tld = isTrue(monster) ? 'monster' : 'com'
   if (playbackId) {
-    return fetchPlaybackUrl(playbackId, tld)
+    try {
+      return await fetchPlaybackUrl(playbackId, tld)
+    } catch (err) {
+      console.error('WARN: Failed to fetch playback URL for', playbackId, err)
+      live = playbackId
+    }
   }
 
   const path = pathQs
