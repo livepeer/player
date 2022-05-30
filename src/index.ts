@@ -97,7 +97,7 @@ new URLSearchParams(location.search).forEach(
   (value, name) => (query[name] = value)
 )
 
-const { autoplay = '1', muted = autoplay, loop, theme = 'forest' } = query
+const { autoplay = '1', muted = autoplay, loop, theme = 'fantasy' } = query
 const video = document.getElementById('video')
 if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
