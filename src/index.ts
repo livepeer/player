@@ -52,16 +52,6 @@ const fetchPlaybackUrl = async (playbackId: string, tld: string) => {
   }
   return hlsInfo.url
 }
-// const getReportingUrl = async (query: Record<string, string>) => {
-//   let { v: playbackId, live, recording, path: pathQs, url, monster } = query
-//   if (playbackId) {
-//     try {
-//       return `wss://sao-canary-catalyst-0.livepeer.fun/json_video+${playbackId}.js`
-//     } catch (err) {
-//       console.error('WARN: failed to create reporting url');
-//     }
-//   }
-// }
 
 const isTrue = (b: string) =>
   b === '' || b === '1' || b?.toLowerCase() === 'true'
@@ -118,11 +108,6 @@ player.volume(1)
 player.controls(true)
 
 getVideoSrc(query).then((src) => {
-
-  document.body.addEventListener("loadstart",function(e){
-    metrics.reportGenericVideoMetrics(e.target, reportingUrl);
-  },true);
-
   player.src({
     src,
     type: 'application/x-mpegURL',
@@ -131,4 +116,8 @@ getVideoSrc(query).then((src) => {
   player.hlsQualitySelector({
     displayCurrentQuality: true,
   })
+  document.body.addEventListener("loadstart",function(e){
+    metrics.reportGenericVideoMetrics(e.target, reportingUrl);
+  },true);
+  metrics.reportGenericVideoMetrics(video, reportingUrl);
 })
