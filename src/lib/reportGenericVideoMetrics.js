@@ -4,7 +4,7 @@
  * @param video                 Element to capture playback metrics from
  * @param reportingWebsocketUrl Url to the websocket to report to
  */
-export default function reportGenericVideoMetrics(video, reportingWebsocketUrl) {
+export function reportGenericVideoMetrics(video, reportingWebsocketUrl) {
   if (video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl)) {
     console.log("video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl");
     return; //do not attach twice (to the same websocket)

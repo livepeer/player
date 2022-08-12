@@ -1,5 +1,5 @@
 const { body } = document
-import reportGenericVideoMetrics = require('./lib/reportGenericVideoMetrics');
+import * as metrics from './lib/reportGenericVideoMetrics';
 // set background to transparent when inside iframe
 // if (window.location !== window.parent.location) {
 //   body.style.background = 'none transparent'
@@ -120,7 +120,7 @@ player.controls(true)
 getVideoSrc(query).then((src) => {
 
   document.body.addEventListener("loadstart",function(e){
-    reportGenericVideoMetrics(e.target, reportingUrl);
+    metrics.reportGenericVideoMetrics(e.target, reportingUrl);
   },true);
 
   player.src({
