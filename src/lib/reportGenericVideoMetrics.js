@@ -4,12 +4,19 @@
  * @param video                 Element to capture playback metrics from
  * @param reportingWebsocketUrl Url to the websocket to report to
  */
-function reportGenericVideoMetrics(video,reportingWebsocketUrl) {
+export default function reportGenericVideoMetrics(video, reportingWebsocketUrl) {
   if (video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl)) {
+    console.log("video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl");
     return; //do not attach twice (to the same websocket)
   }
-  if (!window.WebSocket) return; //no support to report in this browser
-  if (!("play" in video) || !("currentTime" in video)) return; //lazy check if this is a video or audio element
+  if (!window.WebSocket) {
+    console.log("no support to report in this browser");
+    return
+  }; //no support to report in this browser
+  if (!("play" in video) || !("currentTime" in video))  {
+    console.log("lazy check if this is a video or audio element");
+    return
+  }; //lazy check if this is a video or audio element
 
   video._reportGenericVideoMetrics = reportingWebsocketUrl;
   var ws;
@@ -39,6 +46,7 @@ function reportGenericVideoMetrics(video,reportingWebsocketUrl) {
         },Math.pow(2,ws.n)*1e3); //if the connection keeps failing, wait longer before retrying
       }
     };
+    console.log("ws: ", ws);
     return ws;
   }
 
@@ -320,3 +328,4 @@ function reportGenericVideoMetrics(video,reportingWebsocketUrl) {
 }
 reportGenericVideoMetrics_bootMs = new Date().getTime(); //used for firstPlayback value
 
+// module.exports = reportGenericVideoMetrics;

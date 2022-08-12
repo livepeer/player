@@ -1,5 +1,5 @@
 const { body } = document
-
+import reportGenericVideoMetrics = require('./lib/reportGenericVideoMetrics');
 // set background to transparent when inside iframe
 // if (window.location !== window.parent.location) {
 //   body.style.background = 'none transparent'
@@ -52,6 +52,16 @@ const fetchPlaybackUrl = async (playbackId: string, tld: string) => {
   }
   return hlsInfo.url
 }
+// const getReportingUrl = async (query: Record<string, string>) => {
+//   let { v: playbackId, live, recording, path: pathQs, url, monster } = query
+//   if (playbackId) {
+//     try {
+//       return `wss://sao-canary-catalyst-0.livepeer.fun/json_video+${playbackId}.js`
+//     } catch (err) {
+//       console.error('WARN: failed to create reporting url');
+//     }
+//   }
+// }
 
 const isTrue = (b: string) =>
   b === '' || b === '1' || b?.toLowerCase() === 'true'
@@ -94,6 +104,9 @@ const video = document.getElementById('video')
 if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
 }
+const {v: playbackId} = query
+const reportingUrl = `wss://sao-canary-catalyst-0.livepeer.fun/json_video+${playbackId}.js`
+
 // @ts-ignore
 const player = videojs(video, {
   autoplay: isTrue(autoplay),
@@ -105,6 +118,11 @@ player.volume(1)
 player.controls(true)
 
 getVideoSrc(query).then((src) => {
+
+  document.body.addEventListener("loadstart",function(e){
+    reportGenericVideoMetrics(e.target, reportingUrl);
+  },true);
+
   player.src({
     src,
     type: 'application/x-mpegURL',

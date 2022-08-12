@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Livepeer Player</title>
-    <script src="reportGenericVideoMetrics.js"></script>
+    <script src="lib/reportGenericVideoMetrics.js"></script>
 
     <link href="lib/videojs@7.18.1.css" rel="stylesheet" />
     <link href="lib/videojs-themes@1.0.1-city.css" rel="stylesheet">
@@ -16,11 +16,13 @@
     <link href="index.css" rel="stylesheet" />
   </head>
   <body>
-    <script>
+    <!-- <script>
       function createReportingUrl(video) {
         //for this example's sake, re-construct the info ws url so there's somewhere to report to
-        let url = "wss://sao-canary-catalyst-0.livepeer.fun/"; //json_video+196a6qz7pg06nl5h.js";
+        console.log(video);
+        let url = "wss://sao-canary-catalyst-0.livepeer.fun/";
         let filename = video.currentSrc.split("/");
+        console.log(video.currentSrc);
         filename = filename[filename.length-1];
         url += "json_"+filename.split(".")[0]+".js";
         console.log("url is ", url);
@@ -28,7 +30,7 @@
       }
 
       //this way, we won't gather future additions to the DOM tree
-      setTimeout(function(){
+      functionsetTimeout(function(){
 
         //gather all html5 video and audio 
         let vs = document.querySelectorAll("video,audio");
@@ -54,7 +56,7 @@
         reportGenericVideoMetrics(e.target,createReportingUrl(e.target));
       },true);
 
-    </script>
+    </script> -->
     <video
       id="video"
       class="video-js vjs-big-play-centered"
