@@ -5,6 +5,7 @@
  * @param reportingWebsocketUrl Url to the websocket to report to
  */
 export function reportGenericVideoMetrics(video, reportingWebsocketUrl) {
+  console.log("reportGenericVideoMetrics: ", reportingWebsocketUrl)
   if (video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl)) {
     console.log("video._reportGenericVideoMetrics && (video._reportGenericVideoMetrics == reportingWebsocketUrl");
     return; //do not attach twice (to the same websocket)

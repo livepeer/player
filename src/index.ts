@@ -94,8 +94,18 @@ const video = document.getElementById('video')
 if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
 }
-const {v: playbackId} = query
-const reportingUrl = `wss://sao-canary-catalyst-0.livepeer.fun/json_video+${playbackId}.js`
+
+const createReportingUrl = function(src: string) {
+  //for this example's sake, re-construct the info ws url so there's somewhere to report to
+  console.log("createReportingUrl: video src is", encodeURI(src));
+  let url = "wss://sao-canary-catalyst-0.livepeer.fun/";
+  let filename: string[] = src.split("/");
+  let video_name = filename[filename.length-2];
+  url += "json_"+video_name.split(".")[0]+".js";
+  url = encodeURI(url)
+  console.log("createReportingUrl: reporting url is ", url);
+  return url;
+}
 
 // @ts-ignore
 const player = videojs(video, {
@@ -116,8 +126,8 @@ getVideoSrc(query).then((src) => {
   player.hlsQualitySelector({
     displayCurrentQuality: true,
   })
+  const reportingUrl = createReportingUrl(src)
   document.body.addEventListener("loadstart",function(e){
     metrics.reportGenericVideoMetrics(e.target, reportingUrl);
   },true);
-  metrics.reportGenericVideoMetrics(video, reportingUrl);
 })
