@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Livepeer Player</title>
-    <script src="lib/reportGenericVideoMetrics.js"></script>
 
     <link href="lib/videojs@7.18.1.css" rel="stylesheet" />
     <link href="lib/videojs-themes@1.0.1-city.css" rel="stylesheet">
@@ -16,47 +15,6 @@
     <link href="index.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- <script>
-      function createReportingUrl(video) {
-        //for this example's sake, re-construct the info ws url so there's somewhere to report to
-        console.log(video);
-        let url = "wss://sao-canary-catalyst-0.livepeer.fun/";
-        let filename = video.currentSrc.split("/");
-        console.log(video.currentSrc);
-        filename = filename[filename.length-1];
-        url += "json_"+filename.split(".")[0]+".js";
-        console.log("url is ", url);
-        return url;
-      }
-
-      //this way, we won't gather future additions to the DOM tree
-      functionsetTimeout(function(){
-
-        //gather all html5 video and audio 
-        let vs = document.querySelectorAll("video,audio");
-        for (let i = 0; i < vs.length; i++) {
-          reportGenericVideoMetrics(vs[i],createReportingUrl(vs[i]));
-        }
-
-        //also supports reporting to multiple websockets
-        if (!reportGenericVideoMetrics(vs[0],"wss://sao-canary-catalyst-0.livepeer.fun/json_live.js")) { 
-          console.warn("Failed to attach to another reporting server");
-        }
-
-        //but won't attach twice
-        if (!reportGenericVideoMetrics(vs[0],"wss://sao-canary-catalyst-0.livepeer.fun/json_live.js")) {
-          console.warn("Failed to attach to the same reporting server");
-        }
-
-      },1e3);
-
-      //alternatively we could let the video elements come to us...
-      //..but we won't find elements that fail to load
-      document.body.addEventListener("loadstart",function(e){
-        reportGenericVideoMetrics(e.target,createReportingUrl(e.target));
-      },true);
-
-    </script> -->
     <video
       id="video"
       class="video-js vjs-big-play-centered"
