@@ -40,10 +40,12 @@ const hlsPlaybackType = 'html5/application/vnd.apple.mpegurl'
 
 const fetchPlaybackUrl = async (playbackId: string, tld: string) => {
   const res = await fetch(`https://livepeer.${tld}/api/playback/${playbackId}`)
-  if (res.status !== 200) {
+  console.log("fetchPlaybackUrl res", res);
+  if (res.status !== 200) { 
     throw new Error(`${res.status} ${res.statusText}`)
   }
   const playback: PlaybackInfo = await res.json()
+  console.log("fetchPlaybackUrl pla")
   const hlsInfo = playback?.meta?.source?.find(
     (s) => s.type === hlsPlaybackType
   )
@@ -95,12 +97,22 @@ if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
   addClass(video, `vjs-theme-${theme}`)
 }
 
-const createReportingUrl = function(src: string) {
+const createReportingUrl = function(src: string, query: Record<string, string>) {
+  console.log("createReportingUrl: query", query);
+  let { v: playbackId } = query;
+  if (playbackId) {
+    let url = "wss://sao-canary-catalyst-0.livepeer.fun/json_video+" + playbackId + ".js";
+    console.log("createReportingUrl: playbackId not null url is: ", url);
+    url = encodeURI(url)
+    console.log("createReportingUrl: playbackId not null url is: ", url);
+    return url
+  }
   //for this example's sake, re-construct the info ws url so there's somewhere to report to
   console.log("createReportingUrl: video src is", encodeURI(src));
   let url = "wss://sao-canary-catalyst-0.livepeer.fun/";
   let filename: string[] = src.split("/");
   let video_name = filename[filename.length-2];
+  console.log("createReportingUrl video name", video_name);
   url += "json_"+video_name.split(".")[0]+".js";
   url = encodeURI(url)
   console.log("createReportingUrl: reporting url is ", url);
@@ -118,6 +130,7 @@ player.volume(1)
 player.controls(true)
 
 getVideoSrc(query).then((src) => {
+  console.log("getVideoSrc query", query);
   player.src({
     src,
     type: 'application/x-mpegURL',
@@ -126,7 +139,7 @@ getVideoSrc(query).then((src) => {
   player.hlsQualitySelector({
     displayCurrentQuality: true,
   })
-  const reportingUrl = createReportingUrl(src)
+  const reportingUrl = createReportingUrl(src, query)
   document.body.addEventListener("loadstart",function(e){
     metrics.reportGenericVideoMetrics(e.target, reportingUrl);
   },true);
