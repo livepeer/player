@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "rm -r dist/ && next export -o dist/"
+    "export": "rm -rf dist/ && next export -o dist/"
   },
   "dependencies": {
     "@livepeer/react": "^0.6.0",
