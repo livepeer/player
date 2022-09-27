@@ -19,13 +19,6 @@ const pathJoin = (p1: string, p2: string) => {
   return `${p1}/${p2}`
 }
 
-const addClass = (elm: HTMLElement, class_: string) => {
-  if (elm.classList?.add) {
-    return elm.classList.add(class_)
-  }
-  elm.className += ` ${class_}`
-}
-
 type PlaybackInfo = {
   type: string
   meta: {
@@ -94,11 +87,6 @@ function toStringValues(obj: Record<string, any>) {
   return strObj
 }
 
-function toBoolean(val: string) {
-  val = val?.toLowerCase()
-  return val === 'true' || val === '1'
-}
-
 const Player: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
@@ -114,10 +102,11 @@ const Player: NextPage = () => {
   return (
     <div className={styles.container}>
       <VideoPlayer
+        className={styles.player}
         src={src}
-        muted={toBoolean(muted)}
-        autoPlay={toBoolean(autoplay)}
-        loop={toBoolean(loop)}
+        muted={isTrue(muted)}
+        autoPlay={isTrue(autoplay)}
+        loop={isTrue(loop)}
       />
     </div>
   )
