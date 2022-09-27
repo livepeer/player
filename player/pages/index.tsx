@@ -1,6 +1,9 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { VideoPlayer } from '@livepeer/react'
+
 import styles from '../styles/Player.module.css'
 
 const pathJoin = (p1: string, p2: string) => {
@@ -83,7 +86,7 @@ const getVideoSrc = async (query: Record<string, string>) => {
   return pathJoin(`https://livepeercdn.${tld}`, path)
 }
 
-export function toStringValues(obj: Record<string, any>) {
+function toStringValues(obj: Record<string, any>) {
   const strObj: Record<string, string> = {}
   for (const [key, value] of Object.entries(obj)) {
     strObj[key] = value.toString()
@@ -91,57 +94,31 @@ export function toStringValues(obj: Record<string, any>) {
   return strObj
 }
 
+function toBoolean(val: string) {
+  val = val?.toLowerCase()
+  return val === 'true' || val === '1'
+}
+
 const Player: NextPage = () => {
   const { query: rawQuery } = useRouter()
-  const query = toStringValues(rawQuery)
-  const videoRef = useRef<HTMLElement>()
+  const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
+  const { autoplay = '1', muted = autoplay, loop } = query
+  const [src, setSrc] = useState<string>('')
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) {
-      return
-    }
-    const { autoplay = '1', muted = autoplay, loop, theme } = query
-    if (/^(city|fantasy|forest|sea)$/.test(theme ?? '')) {
-      addClass(video, `vjs-theme-${theme}`)
-    }
-    // @ts-ignore
-    const player = videojs(video, {
-      autoplay: isTrue(autoplay),
-      muted: isTrue(muted),
-      loop: isTrue(loop),
-    })
-
-    player.volume(1)
-    player.controls(true)
-
     getVideoSrc(query).then((src) => {
-      player.src({
-        src,
-        type: 'application/x-mpegURL',
-        withCredentials: false,
-      })
-      player.hlsQualitySelector({
-        displayCurrentQuality: true,
-      })
+      setSrc(src)
     })
   }, [query])
 
   return (
     <div className={styles.container}>
-      <video id='video' className={styles.player} controls preload='auto'>
-        <p className='vjs-no-js'>
-          To view this video please enable JavaScript, and consider upgrading to
-          a web browser that
-          <a
-            href='https://videojs.com/html5-video-support/'
-            target='_blank'
-            rel='noreferrer'
-          >
-            supports HTML5 video
-          </a>
-        </p>
-      </video>
+      <VideoPlayer
+        src={src}
+        muted={toBoolean(muted)}
+        autoPlay={toBoolean(autoplay)}
+        loop={toBoolean(loop)}
+      />
     </div>
   )
 }
