@@ -5,28 +5,22 @@ import {
   createReactClient,
   studioProvider,
 } from '@livepeer/react'
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+
+const isStaging =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).has('monster')
+const livepeer = createReactClient({
+  provider: studioProvider(
+    !isStaging
+      ? undefined
+      : {
+          baseUrl: 'https://livepeer.monster/api',
+          apiKey: '',
+        }
+  ),
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const {
-    query: { monster },
-  } = useRouter()
-  const isStaging = !!monster
-  const livepeer = useMemo(
-    () =>
-      createReactClient({
-        provider: studioProvider(
-          !isStaging
-            ? undefined
-            : {
-                baseUrl: 'https://livepeer.monster/api',
-              }
-        ),
-      }),
-    [isStaging]
-  )
-
   return (
     <LivepeerConfig client={livepeer}>
       <Component {...pageProps} />
