@@ -5,10 +5,28 @@ import {
   createReactClient,
   studioProvider,
 } from '@livepeer/react'
-
-const livepeer = createReactClient({ provider: studioProvider() })
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const {
+    query: { monster },
+  } = useRouter()
+  const isStaging = !!monster
+  const livepeer = useMemo(
+    () =>
+      createReactClient({
+        provider: studioProvider(
+          !isStaging
+            ? undefined
+            : {
+                baseUrl: 'https://livepeer.monster/api',
+              }
+        ),
+      }),
+    [isStaging]
+  )
+
   return (
     <LivepeerConfig client={livepeer}>
       <Component {...pageProps} />
