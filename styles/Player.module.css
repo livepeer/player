@@ -1,4 +1,4 @@
-body {
+.container {
   position: absolute;
   margin: 0px;
   padding: 0px;
@@ -15,7 +15,7 @@ body {
   background: #1f1f1f;
 }
 
-#video {
+.player {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,11 +25,4 @@ body {
   /* transform: scaleX(-1); */
   /* border: 1px solid #dddddd; */
   /* box-sizing: border-box; */
-}
-
-.video-js .vjs-time-control {
-  display: block;
-}
-.video-js .vjs-remaining-time {
-  display: none;
 }

@@ -1,38 +1,32 @@
 {
   "name": "@livepeer/player",
   "description": "Embeddable HLS player, optimized for Livepeer streams and assets.",
-  "version": "0.2.3",
+  "version": "0.4.0",
   "private": true,
-  "main": "dist/index.js",
   "scripts": {
-    "prepare": "run-s clean:build build",
-    "fleek": "apt update && apt install -y rsync && yarn",
-    "start": "http-server ./dist",
-    "clean": "run-p clean:build clean:deps",
-    "clean:build": "rm -rf ./dist",
-    "clean:deps": "rm -rf ./node_modules",
-    "build": "run-p build:copy build:bundle",
-    "build:copy": "mkdir -p ./dist && rsync -r --exclude '*.ts' src/* ./dist",
-    "build:bundle": "esbuild --define:process.env.NODE_ENV=\"production\" --minify --bundle --log-level=error src/index.ts --outfile=./dist/index.js",
-    "dev": "yarn clean:build; run-p dev:copy dev:bundle dev:server",
-    "dev:copy": "watch-exec -w src -c 'run-s build:copy'",
-    "dev:bundle": "esbuild --define:process.env.NODE_ENV=\"development\" --watch --sourcemap --bundle --log-level=error src/index.ts --outfile=./dist/index.js",
-    "dev:server": "watch-http-server ./dist"
+    "fleek": "yarn && yarn export",
+    "prepare": "yarn build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "rm -rf dist/ && next export -o dist/"
   },
-  "author": {
-    "name": "Livepeer",
-    "email": "infraservice@livepeer.org",
-    "url": "https://livepeer.com/"
+  "dependencies": {
+    "@livepeer/react": "^0.6.1",
+    "ethers": "^5.7.1",
+    "livepeer": "^0.5.1",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "wagmi": "^0.6.7"
   },
-  "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "esbuild": "0.12.3",
-    "http-server": "^14.1.0",
-    "npm-run-all": "^4.1.5",
-    "ts-node": "^10.0.0",
-    "typescript": "^4.3.2",
-    "watch-exec": "^1.2.2",
-    "watch-http-server": "^0.7.6"
+    "@types/node": "18.7.23",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1",
+    "typescript": "4.8.3"
   }
 }
