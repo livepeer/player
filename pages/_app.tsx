@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app'
-
 import {
   LivepeerConfig,
   createReactClient,
   studioProvider,
 } from '@livepeer/react'
+
+import '../styles/globals.css'
 
 const isStaging =
   typeof window !== 'undefined' &&
