@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 
-import { VideoPlayer } from '@livepeer/react'
+import { Player } from '@livepeer/react'
 
 import styles from '../styles/Player.module.css'
 
@@ -17,7 +17,7 @@ function toStringValues(obj: Record<string, any>) {
   return strObj
 }
 
-const Player: NextPage = () => {
+const EmbeddablePlayer: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
   const { autoplay = '1', muted = autoplay, loop, v, url } = query
@@ -25,10 +25,10 @@ const Player: NextPage = () => {
   const srcProps = url ? { src: url } : { playbackId: v }
   return (
     <div className={styles.container}>
-      <VideoPlayer
-        className={styles.player}
+      <Player
+        theme={styles.player}
         muted={isTrue(muted)}
-        autoPlay={isTrue(autoplay)}
+        autoPlay={isTrue(autoplay) as any}
         loop={isTrue(loop)}
         {...srcProps}
       />
@@ -36,4 +36,4 @@ const Player: NextPage = () => {
   )
 }
 
-export default Player
+export default EmbeddablePlayer
