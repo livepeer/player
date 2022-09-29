@@ -26,7 +26,6 @@ const EmbeddablePlayer: NextPage = () => {
   return (
     <div className={styles.container}>
       <Player
-        theme={styles.player}
         muted={isTrue(muted)}
         autoPlay={isTrue(autoplay) as any}
         loop={isTrue(loop)}
