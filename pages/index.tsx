@@ -24,12 +24,14 @@ const EmbeddablePlayer: NextPage = () => {
 
   const srcProps = url ? { src: url } : { playbackId: v }
   return (
-    <Player
-      muted={isTrue(muted)}
-      autoPlay={isTrue(autoplay) as any}
-      loop={isTrue(loop)}
-      {...srcProps}
-    />
+    <div className={styles.container}>
+      <Player
+        muted={isTrue(muted)}
+        autoPlay={isTrue(autoplay) as any}
+        loop={isTrue(loop)}
+        {...srcProps}
+      />
+    </div>
   )
 }
 
