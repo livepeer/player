@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import { Player } from '@livepeer/react'
+import { AspectRatio, Player } from '@livepeer/react'
 
 const isTrue = (b: string) =>
   b === '' || b === '1' || b?.toLowerCase() === 'true'
@@ -28,7 +28,7 @@ function isIframe() {
 const PlayerPage: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
-  let { autoplay, muted, loop, v, url } = query
+  let { autoplay, muted, loop, aspectRatio, v, url } = query
   if (autoplay === undefined && (muted === undefined || isTrue(muted))) {
     autoplay = muted = '1'
   }
@@ -54,6 +54,7 @@ const PlayerPage: NextPage = () => {
         autoPlay={isTrue(autoplay)}
         loop={isTrue(loop)}
         objectFit='contain'
+        aspectRatio={(aspectRatio as AspectRatio) ?? '16to9'}
         theme={{
           radii: {
             containerBorderRadius: '0px',
