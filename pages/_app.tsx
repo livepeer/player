@@ -4,13 +4,14 @@ import {
   createReactClient,
   studioProvider,
 } from '@livepeer/react'
-
+import memoryLocalStorage from 'localstorage-memory'
 import '../styles/globals.css'
 
 const isStaging =
   typeof window !== 'undefined' &&
   new URLSearchParams(window.location.search).has('monster')
 const livepeer = createReactClient({
+  storage: memoryLocalStorage,
   provider: studioProvider(
     !isStaging
       ? undefined

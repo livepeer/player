@@ -25,6 +25,10 @@ function isIframe() {
   return true
 }
 
+export async function getStaticProps(context: any) {
+  return { props: {} }
+}
+
 const PlayerPage: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
