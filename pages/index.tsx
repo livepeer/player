@@ -14,6 +14,17 @@ function toStringValues(obj: Record<string, any>) {
   return strObj
 }
 
+function isIframe() {
+  try {
+    return window.self !== window.top
+  } catch {}
+  try {
+    return window.self !== window.parent
+  } catch {}
+  // default to true as this is only used to set a transparent background
+  return true
+}
+
 const PlayerPage: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
@@ -33,7 +44,7 @@ const PlayerPage: NextPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
-        backgroundColor: '#000',
+        backgroundColor: isIframe() ? 'transparent' : 'black',
       }}
     >
       <Player
