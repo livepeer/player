@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { AspectRatio, Player } from '@livepeer/react'
 
 const isTrue = (b: string) =>
@@ -33,6 +33,12 @@ const PlayerPage: NextPage = () => {
     autoplay = muted = '1'
   }
 
+  useEffect(() => {
+    if (!isIframe()) {
+      document.body.style.backgroundColor = 'black'
+    }
+  }, [])
+
   return (
     <div
       style={{
@@ -44,7 +50,6 @@ const PlayerPage: NextPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
-        backgroundColor: isIframe() ? 'transparent' : 'black',
       }}
     >
       <Player
