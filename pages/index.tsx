@@ -17,7 +17,10 @@ function toStringValues(obj: Record<string, any>) {
 const PlayerPage: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
-  const { autoplay = '1', muted = autoplay, loop, v, url } = query
+  let { autoplay, muted, loop, v, url } = query
+  if (autoplay === undefined && (muted === undefined || isTrue(muted))) {
+    autoplay = muted = '1'
+  }
 
   return (
     <div
