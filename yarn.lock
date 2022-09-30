@@ -56,10 +56,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@livepeer/react@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@livepeer/react/-/react-1.0.2.tgz#61d64a8e8198ec77b33a09c9dc9f348c0a0c5517"
-  integrity sha512-KIeGKYls4qQNuF8TTGzbpwq5BuPWwlQ0+A5N6D6/yKwgWQynjlA/KlExNk5a7xN76hLW0BKJuFFhi/X0aqDcpg==
+"@livepeer/react@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@livepeer/react/-/react-1.0.3.tgz#50e5173e3565405003e1cc204b986b9bceea2e31"
+  integrity sha512-rJRCliHvVA3KZmlpxfE5MugsS+rGgs9N31HQIEXweKSRh7jD5sKdnGh/ELK7rCpfIk6SvgBEFPwnBqN6b87zSA==
   dependencies:
     "@stitches/react" "^1.2.8"
     "@tanstack/query-sync-storage-persister" "4.2.3"

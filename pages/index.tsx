@@ -39,6 +39,7 @@ const PlayerPage: NextPage = () => {
         muted={isTrue(muted)}
         autoPlay={isTrue(autoplay)}
         loop={isTrue(loop)}
+        objectFit='contain'
         theme={{
           radii: {
             containerBorderRadius: '0px',
