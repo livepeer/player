@@ -56,17 +56,17 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@livepeer/react@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@livepeer/react/-/react-1.0.3.tgz#50e5173e3565405003e1cc204b986b9bceea2e31"
-  integrity sha512-rJRCliHvVA3KZmlpxfE5MugsS+rGgs9N31HQIEXweKSRh7jD5sKdnGh/ELK7rCpfIk6SvgBEFPwnBqN6b87zSA==
+"@livepeer/react@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@livepeer/react/-/react-1.0.4.tgz#78fd41413b52b81b64e6f0e8b8b3286a703d3e22"
+  integrity sha512-IrNJ+kMYeKvR7Pl8KRb6CXHj35d53d5IDtlDx6u+1/EleJtSavTTEF1wJEQ+5icHYucQqwakZteZKTNXOzEing==
   dependencies:
     "@stitches/react" "^1.2.8"
     "@tanstack/query-sync-storage-persister" "4.2.3"
     "@tanstack/react-query" "4.2.3"
     "@tanstack/react-query-persist-client" "4.2.1"
     core-js "^3.25.2"
-    livepeer "^1.0.1"
+    livepeer "^1.0.2"
     use-sync-external-store "^1.2.0"
     zustand "^4.1.1"
 
@@ -1264,10 +1264,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-livepeer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/livepeer/-/livepeer-1.0.1.tgz#5d4e1f83299aab6ad3d6ff31d2206fa60d3880fb"
-  integrity sha512-cNmYymdzADtLlKVewndhc4SKIaqx1u92zgQrkYcD42Z9AZK71k/7/bUB/u3p87xWXhuV8F5MhE9R1J3AUs+uAQ==
+livepeer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/livepeer/-/livepeer-1.0.2.tgz#ac34a36c6b0c3aab6015fa0c2d379ea103d7f240"
+  integrity sha512-RU6VXW7Aqio10IS1F95bMHgpfWU9zEZGG9jv7NUhFmzp/qsa88ztZ0kgWqWwo/RdK1MLoiwmzJjtmMwSDjTSuw==
   dependencies:
     "@stitches/core" "^1.2.8"
     core-js "^3.25.2"
