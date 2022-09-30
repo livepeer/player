@@ -17,10 +17,14 @@ function toStringValues(obj: Record<string, any>) {
 function isIframe() {
   try {
     return window.self !== window.top
-  } catch {}
+  } catch (e) {
+    console.log(e)
+  }
   try {
     return window.self !== window.parent
-  } catch {}
+  } catch (e) {
+    console.log(e)
+  }
   // default to true as this is only used to set a transparent background
   return true
 }
