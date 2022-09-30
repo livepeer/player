@@ -28,7 +28,15 @@ function isIframe() {
 const PlayerPage: NextPage = () => {
   const { query: rawQuery } = useRouter()
   const query = useMemo(() => toStringValues(rawQuery), [rawQuery])
-  let { autoplay, muted, loop, aspectRatio, v, url } = query
+  let {
+    autoplay,
+    muted,
+    loop,
+    aspectRatio = '16to9',
+    objectFit = 'contain',
+    v,
+    url,
+  } = query
   if (autoplay === undefined && (muted === undefined || isTrue(muted))) {
     autoplay = muted = '1'
   }
@@ -58,8 +66,8 @@ const PlayerPage: NextPage = () => {
         muted={isTrue(muted)}
         autoPlay={isTrue(autoplay)}
         loop={isTrue(loop)}
-        objectFit='contain'
-        aspectRatio={(aspectRatio as AspectRatio) ?? '16to9'}
+        objectFit={objectFit as any}
+        aspectRatio={aspectRatio as AspectRatio}
         theme={{
           radii: {
             containerBorderRadius: '0px',
