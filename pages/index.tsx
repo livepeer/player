@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { AspectRatio, Player } from '@livepeer/react'
+import { Player } from '@livepeer/react'
 
 const isTrue = (b: string) =>
   b === '' || b === '1' || b?.toLowerCase() === 'true'
@@ -63,6 +63,7 @@ const PlayerPage: NextPage = () => {
         autoPlay={isTrue(autoplay)}
         loop={isTrue(loop)}
         objectFit={objectFit as any}
+        showPipButton
         theme={{
           radii: {
             containerBorderRadius: '0px',
