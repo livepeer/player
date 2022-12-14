@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@livepeer/react": "^2.0.0-next.9",
+    "@sentry/nextjs": "^7.26.0",
     "mux-embed": "^4.15.0",
     "next": "12.3.1",
     "react": "18.2.0",
