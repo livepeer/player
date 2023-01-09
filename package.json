@@ -13,7 +13,7 @@
     "export": "rm -rf dist/ && next export -o dist/"
   },
   "dependencies": {
-    "@livepeer/react": "^2.0.0-next.9",
+    "@livepeer/react": "^2.0.0",
     "@sentry/nextjs": "^7.26.0",
     "mux-embed": "^4.15.0",
     "next": "12.3.1",
